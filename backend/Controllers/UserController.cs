@@ -218,8 +218,7 @@ namespace backend.Controllers
                     con.Open();
 
                     using (MySqlCommand cmd = new MySqlCommand(query, con))
-                    {
-                        Random r = new Random();
+                    {   
                         cmd.Parameters.AddWithValue("@password", user.password);
                         cmd.Parameters.AddWithValue("@firstName", user.firstName);
                         cmd.Parameters.AddWithValue("@lastName", user.lastName);
