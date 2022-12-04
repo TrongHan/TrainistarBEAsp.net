@@ -28,6 +28,8 @@ namespace backend.Controllers
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
             MySqlDataReader reader;
+            response.code = "1";
+            response.message = "Delete succeeded";
             try
             {
                 using (MySqlConnection con = new MySqlConnection(data))
@@ -48,8 +50,7 @@ namespace backend.Controllers
                 response.code = "-1";
                 response.message = "Delete user failed";
             }
-            response.code = "1";
-            response.message = "Delete succeeded";
+            
             return new JsonResult(response);
         }
         [Route("{username}")]
