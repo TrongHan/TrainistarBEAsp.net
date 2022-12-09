@@ -13,4 +13,4 @@
 
 | api/user/{username} | PUT    | username: string | userName: string<br/>password:string<br/>firstName: string<br/> lastName: string<br/>email: string<br/>phoneNumber:string<br/>gender: string (Male/Female)<br/>typeUser: int (1: student, 2: teacher)                                      | Sửa thông tin user dựa trên username   |
 
-| api/course_student/{idUser}  | idUser: int      | x                | x                                                                                                                                                                                                                      | Lấy thông tin học viên                 |
+| api/course_student/{idUser}  | GET      | idUser: int                | x                                                                                                                                                                                                                      | Lấy thông tin học viên                 |
