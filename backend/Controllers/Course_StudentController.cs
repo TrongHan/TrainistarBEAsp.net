@@ -22,19 +22,18 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
-        [Route("student/{id}")]
+        [Route("{idUser}")]
         [HttpGet]
-        public JsonResult getStudentResult(string idUser, [FromBody]Course_StudentDTO course_student)
+        public JsonResult getStudentResult(string idUser)
         {
+            //, [FromBody]Course_StudentDTO course_student
             string query = @"select * 
             from User_ U, Course_Student CS
             where typeUser = 1 and U.idUser = CS.idStudent and U.idUser = @idUser";
-
+            
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
             MySqlDataReader reader;
-            response.code = "1";
-            response.message = "Get succeeded";
 
             using (MySqlConnection con = new MySqlConnection(data))
             {
@@ -42,14 +41,37 @@ namespace backend.Controllers
 
                 using (MySqlCommand cmd = new MySqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@idUser", course_student.idStudent);
+                    cmd.Parameters.AddWithValue("@idUser", idUser);
                     reader = cmd.ExecuteReader();
                     table.Load(reader);
                     reader.Close();
                     con.Close();
                 }
             }
-            return new JsonResult(response);
+            return new JsonResult(table);
+        }
+
+
+        [Route("all-students")]
+        [HttpGet]
+        public JsonResult getAllStudent()
+        {
+            string query = @"select * from User_ where typeUser = 1";
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    reader.Close();
+                    con.Close();
+                }
+            }
+            return new JsonResult(table);
         }
     }
 }

@@ -262,6 +262,7 @@ namespace backend.Controllers
                     con.Close();
                 }
             }
+            System.Diagnostics.Debug.WriteLine("This is a log");
             return new JsonResult(table);
         }
     }
