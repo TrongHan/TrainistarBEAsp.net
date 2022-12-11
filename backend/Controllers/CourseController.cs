@@ -95,7 +95,8 @@ namespace backend.Controllers
             @nameCourse,
             @description,
             @idQuestionBank,
-            @history
+            @startDate,
+            @finishDate
             )";
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
@@ -117,7 +118,8 @@ namespace backend.Controllers
                         cmd.Parameters.AddWithValue("@nameCourse", course.nameCourse);
                         cmd.Parameters.AddWithValue("@description", course.description);
                         cmd.Parameters.AddWithValue("@idQuestionBank", course.idQuestionBank);
-                        cmd.Parameters.AddWithValue("@history", course.history);
+                        cmd.Parameters.AddWithValue("@startDate", course.startDate);
+                        cmd.Parameters.AddWithValue("@finishDate", course.finishDate);
                         reader = cmd.ExecuteReader();
                         table.Load(reader);
                         reader.Close();
@@ -144,7 +146,8 @@ namespace backend.Controllers
             nameCourse=@nameCourse,
             description=@description,
             idQuestionBank=@idQuestionBank,
-            history=@history
+            startDate=@startDate,
+            finishDate=@finishDate
             where idCourse=@idCourse";
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
@@ -166,7 +169,8 @@ namespace backend.Controllers
                         cmd.Parameters.AddWithValue("@nameCourse", course.nameCourse);
                         cmd.Parameters.AddWithValue("@description", course.description);
                         cmd.Parameters.AddWithValue("@idQuestionBank", course.idQuestionBank);
-                        cmd.Parameters.AddWithValue("@history", course.history);
+                        cmd.Parameters.AddWithValue("@startDate", course.startDate);
+                        cmd.Parameters.AddWithValue("@finishDate", course.finishDate);
                         reader = cmd.ExecuteReader();
                         table.Load(reader);
                         reader.Close();

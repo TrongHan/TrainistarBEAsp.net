@@ -10,6 +10,7 @@ namespace backend.Model
         public string nameCourse { get; set; }
         public string description { get; set; }
         public string idQuestionBank { get; set; }
-        public DateTime history { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime finishDate { get; set; }
     }
 }
