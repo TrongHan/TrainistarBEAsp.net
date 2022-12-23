@@ -23,7 +23,7 @@ namespace backend.Controllers
         public JsonResult getAllManager()
         {
             //Tạo câu query
-            string query = @"select * from Manager";
+            string query = @"select Manager.fullName, Manager.id from Manager";
             //Hứng data query về table
             DataTable table = new DataTable();
             //Lấy chuỗi string connect vào db (setup ở appsettings.json)
