@@ -88,7 +88,7 @@ namespace backend.Controllers
         }
         [Route("mark/{username}")]
         [HttpPut]
-        public JsonResult UpdateMark(string idStudent,string idCourse, [FromBody] Course_StudentDTO course_student)
+        public JsonResult UpdateMark(string idStudent, string idCourse, [FromBody] Course_StudentDTO course_student)
         {
             string query = @"update course_student set
             mark=@mark
@@ -132,7 +132,6 @@ namespace backend.Controllers
             using (MySqlConnection con = new MySqlConnection(data))
             {
                 con.Open();
-
                 using (MySqlCommand cmd = new MySqlCommand(query, con))
                 {
 
@@ -148,3 +147,4 @@ namespace backend.Controllers
         }
     }
 }
+
