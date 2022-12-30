@@ -114,7 +114,6 @@ namespace backend.Controllers
                     con.Close();
                 }
             }
-
             return new JsonResult(response);
         }
 
@@ -133,7 +132,6 @@ namespace backend.Controllers
             using (MySqlConnection con = new MySqlConnection(data))
             {
                 con.Open();
-
                 using (MySqlCommand cmd = new MySqlCommand(query, con))
                 {
 
