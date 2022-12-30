@@ -238,7 +238,7 @@ namespace backend.Controllers
             return new JsonResult(response);
         }
 
-        [Route("all-students")]
+        [Route("allstudents")]
         [HttpGet]
         public JsonResult getAllStudent()
         {

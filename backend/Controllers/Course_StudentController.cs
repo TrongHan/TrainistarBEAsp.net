@@ -142,7 +142,90 @@ namespace backend.Controllers
                     con.Close();
                 }
             }
+            return new JsonResult(table);
+        }
 
+        [Route("totalstudents/month")]
+        [HttpGet]
+        public JsonResult getTotalStudentsInCourseByMonth()
+        {
+            //, [FromBody]Course_StudentDTO course_student
+            string query = @"
+            SELECT CS.idCourse, C.nameCourse, count(CS.idStudent) AS TotalStudents, MONTH(C.startDate) AS Month
+            FROM trainistar.course_student CS, trainistar.course C
+            WHERE CS.idCourse = C.idCourse
+            GROUP BY CS.idCourse;";
+
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    reader.Close();
+                    con.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
+
+        [Route("totalstudents/quarter")]
+        [HttpGet]
+        public JsonResult getTotalStudentsInCourseByQuarter()
+        {
+            //, [FromBody]Course_StudentDTO course_student
+            string query = @"
+            SELECT CS.idCourse, C.nameCourse, count(CS.idStudent) AS TotalStudents, QUARTER(C.startDate) AS Quarters
+            FROM trainistar.course_student CS, trainistar.course C
+            WHERE CS.idCourse = C.idCourse
+            GROUP BY CS.idCourse";
+
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    reader.Close();
+                    con.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
+
+        [Route("totalstudents/year")]
+        [HttpGet]
+        public JsonResult getTotalStudentsInCourseByYear()
+        {
+            //, [FromBody]Course_StudentDTO course_student
+            string query = @"
+            SELECT CS.idCourse, C.nameCourse, count(CS.idStudent) AS TotalStudents, YEAR(C.startDate) AS Years
+            FROM trainistar.course_student CS, trainistar.course C
+            WHERE CS.idCourse = C.idCourse
+            GROUP BY CS.idCourse";
+
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    reader.Close();
+                    con.Close();
+                }
+            }
             return new JsonResult(table);
         }
     }
