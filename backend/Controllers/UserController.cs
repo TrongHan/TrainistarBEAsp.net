@@ -240,7 +240,27 @@ namespace backend.Controllers
             
             return new JsonResult(response);
         }
-
+        [Route("all-students")]
+        [HttpGet]
+        public JsonResult getAllStudent()
+        {
+            string query = @"select * from User_ where typeUser = 1";
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    reader.Close();
+                    con.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
 
     }
 }

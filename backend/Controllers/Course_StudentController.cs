@@ -88,7 +88,7 @@ namespace backend.Controllers
         }
         [Route("mark/{username}")]
         [HttpPut]
-        public JsonResult UpdateMark(string idStudent,string idCourse, [FromBody] Course_StudentDTO course_student)
+        public JsonResult UpdateMark(string idStudent, string idCourse, [FromBody] Course_StudentDTO course_student)
         {
             string query = @"update course_student set
             mark=@mark
@@ -115,9 +115,38 @@ namespace backend.Controllers
                 }
             }
 
-
-
             return new JsonResult(response);
+        }
+
+        [Route("student/{idUser}")]
+        [HttpGet]
+        public JsonResult getStudentResult(string idUser)
+        {
+            //, [FromBody]Course_StudentDTO course_student
+            string query = @"select * 
+            from User_ U, Course_Student CS
+            where typeUser = 1 and U.idUser = CS.idStudent and U.idUser = @idUser";
+
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+
+                    cmd.Parameters.AddWithValue("@idUser", idUser);
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    reader.Close();
+                    con.Close();
+                }
+            }
+
+            return new JsonResult(table);
         }
     }
 }
+
