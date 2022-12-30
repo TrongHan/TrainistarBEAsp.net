@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9ecb399-06c8-402a-a11d-fca27f07c357" name="Changes" comment="Update README.md">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Controllers/Course_StudentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Controllers/Course_StudentController.cs" afterDir="false" />
-    </list>
+    <list default="true" id="d9ecb399-06c8-402a-a11d-fca27f07c357" name="Changes" comment="Update README.md" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -83,7 +80,7 @@
       <option name="presentableId" value="Default" />
       <updated>1670577050341</updated>
       <workItem from="1672410182349" duration="392000" />
-      <workItem from="1672411242148" duration="369000" />
+      <workItem from="1672411242148" duration="691000" />
     </task>
     <task id="LOCAL-00001" summary="Update README.md">
       <created>1670577426291</created>
