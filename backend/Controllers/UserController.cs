@@ -237,7 +237,7 @@ namespace backend.Controllers
                 }
             return new JsonResult(response);
         }
-
+        /*
         [Route("allstudents")]
         [HttpGet]
         public JsonResult getAllStudent()
@@ -259,5 +259,6 @@ namespace backend.Controllers
             }
             return new JsonResult(table);
         }
+        */
     }
 }
