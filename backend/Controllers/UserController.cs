@@ -106,7 +106,7 @@ namespace backend.Controllers
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
             MySqlDataReader reader;
-            BaseResponse response = new BaseResponse();
+            RoleAuthentication response = new RoleAuthentication();
             using (MySqlConnection con = new MySqlConnection(data))
             {
                 con.Open();
@@ -117,6 +117,8 @@ namespace backend.Controllers
                     cmd.Parameters.AddWithValue("@password", user.password);
                     reader = cmd.ExecuteReader();
                     table.Load(reader);
+                    response.role = table.Rows[0][8].ToString();
+                    response.name = table.Rows[0][3].ToString() + " " + table.Rows[0][4].ToString();
                     reader.Close();
                     con.Close();
                 }
