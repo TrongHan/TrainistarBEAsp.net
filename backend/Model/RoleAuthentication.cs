@@ -1,10 +1,9 @@
 ﻿using System;
 namespace backend.Model
 {
-    public class RoleAuthentication
+    public class RoleAuthentication : BaseResponse
     {
-        public RoleAuthentication()
-        {
-        }
+        public string role { get; set; }
+        public string name { get; set; }
     }
 }
