@@ -64,11 +64,13 @@ namespace backend.Controllers
             response.message = "Create succeeded";
             return new JsonResult(response);
         }
-        [Route("history/{username}")]
+        [Route("history/{idstudent}")]
         [HttpGet]
-        public JsonResult getHistory(string username)
+        public JsonResult getHistory(string idstudent)
         {
-            string query = @"select * from Course_Student where userName=@userName and mark IS NOT null";
+            string query = @"select course.idCourse, course.nameCourse, course_student.mark from course_student
+            join course on course.idCourse=course_student.idCourse
+            where course_student.idStudent=@idstudent and course_student.mark IS NOT null";
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
             MySqlDataReader reader;
@@ -77,7 +79,7 @@ namespace backend.Controllers
                 con.Open();
                 using (MySqlCommand cmd = new MySqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@userName", username);
+                    cmd.Parameters.AddWithValue("@idstudent", idstudent);
                     reader = cmd.ExecuteReader();
                     table.Load(reader);
                     reader.Close();
@@ -86,7 +88,7 @@ namespace backend.Controllers
             }
             return new JsonResult(table);
         }
-        [Route("mark/{username}")]
+        [Route("mark/{idStudent}/{idCourse}")]
         [HttpPut]
         public JsonResult UpdateMark(string idStudent, string idCourse, [FromBody] Course_StudentDTO course_student)
         {
@@ -105,7 +107,7 @@ namespace backend.Controllers
 
                 using (MySqlCommand cmd = new MySqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@password", course_student.mark);
+                    cmd.Parameters.AddWithValue("@mark", course_student.mark);
                     cmd.Parameters.AddWithValue("@idStudent", idStudent);
                     cmd.Parameters.AddWithValue("@idCourse", idCourse);
                     reader = cmd.ExecuteReader();
