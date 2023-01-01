@@ -22,7 +22,7 @@ namespace backend.Controllers
         [HttpGet]
         public JsonResult getAllCourseInfo()
         {
-            string query = @"select * from Course";
+            string query = @"select course.*,manager.fullname as managerName, Concat(user_.firstName,' ',user_.lastname) as teacherName from ((course left join manager on course.idManager=manager.id)left join user_ on course.idTeacher=user_.idUser )";
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
             MySqlDataReader reader;
