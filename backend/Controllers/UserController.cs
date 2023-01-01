@@ -107,7 +107,9 @@ namespace backend.Controllers
             string data = _configuration.GetConnectionString("DBConnect");
             MySqlDataReader reader;
             RoleAuthentication response = new RoleAuthentication();
-            using (MySqlConnection con = new MySqlConnection(data))
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(data))
             {
                 con.Open();
 
@@ -123,8 +125,7 @@ namespace backend.Controllers
                     con.Close();
                 }
             }
-            try
-            {
+            
                 if (table.Rows[0][0].ToString() != null)
                 {
                     response.code = "1";
