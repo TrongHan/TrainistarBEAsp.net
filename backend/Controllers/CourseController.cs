@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.Xml.Linq;
 
 namespace backend.Controllers
 {
@@ -18,6 +19,31 @@ namespace backend.Controllers
         {
             _configuration = configuration;
         }
+
+        public String getNextCourseId()
+        {
+            string query = @"select count(*) from course";
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            string currentCourseId = "";
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    currentCourseId = table.Rows[0][0].ToString();
+                    reader.Close();
+                    con.Close();
+                }
+            }
+            int temp=Int32.Parse(currentCourseId)+1;
+            currentCourseId=temp.ToString();
+            return currentCourseId;
+        }
+
         [Route("all")]
         [HttpGet]
         public JsonResult getAllCourseInfo()
@@ -109,9 +135,8 @@ namespace backend.Controllers
 
                     using (MySqlCommand cmd = new MySqlCommand(query, con))
                     {
-                        Random r = new Random();
-                        int randomId = r.Next(0, 100000000);
-                        course.idCourse = randomId.ToString();
+                        
+                        course.idCourse = getNextCourseId();
                         cmd.Parameters.AddWithValue("@idCourse", course.idCourse);
                         cmd.Parameters.AddWithValue("@idTeacher", course.idTeacher);
                         cmd.Parameters.AddWithValue("@idManager", course.idManager);
