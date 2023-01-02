@@ -1,4 +1,4 @@
-﻿namespace backend.Model
+namespace backend.Model
 {
     public class UserDTO : UserAuthentication
     {
@@ -9,6 +9,5 @@
         public string phoneNumber { get; set; }
         public string gender { get; set; }
         public byte typeUser { get; set; }
-        public int rating { get; set; }
     }
 }
