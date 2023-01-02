@@ -168,11 +168,11 @@ namespace backend.Controllers
         [HttpPost]
         public JsonResult Login(UserDTO user)
         {
-            string query = @"insert into user_ values (@iduser,@username,@password,@firstname,@lastname,@email,@phonenumber,@gender,@typeuser,@rating)";
+            string query = @"insert into user_ values (@iduser,@username,@password,@firstname,@lastname,@email,@phonenumber,@gender,@typeuser)";
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
             MySqlDataReader reader;
-            
+            user.idUser = getNextUserId();
             try
             {
                 using (MySqlConnection con = new MySqlConnection(data))
@@ -181,8 +181,6 @@ namespace backend.Controllers
 
                     using (MySqlCommand cmd = new MySqlCommand(query, con))
                     {
-
-                        user.idUser = getNextUserId();
                         cmd.Parameters.AddWithValue("@iduser", user.idUser);
                         cmd.Parameters.AddWithValue("@username", user.username);
                         cmd.Parameters.AddWithValue("@password", user.password);
@@ -192,7 +190,6 @@ namespace backend.Controllers
                         cmd.Parameters.AddWithValue("@phonenumber", user.phoneNumber);
                         cmd.Parameters.AddWithValue("@gender", user.gender);
                         cmd.Parameters.AddWithValue("@typeuser", user.typeUser);
-                        cmd.Parameters.AddWithValue("@rating", user.rating);
                         reader = cmd.ExecuteReader();
                         table.Load(reader);
                         reader.Close();
@@ -207,10 +204,10 @@ namespace backend.Controllers
             }
             response.code = "1";
             response.message = "Create succeeded";
-            return new JsonResult(table);
+            return new JsonResult(user);
         }
         [Route("{username}")]
-        [HttpPut]
+        [HttpPatch]
         public JsonResult UpdateUser(string username,[FromBody]UserDTO user)
         {
             string query = @"update user_ set
@@ -242,7 +239,6 @@ namespace backend.Controllers
                         cmd.Parameters.AddWithValue("@phoneNumber", user.phoneNumber);
                         cmd.Parameters.AddWithValue("@gender", user.gender);
                         cmd.Parameters.AddWithValue("@typeUser", user.typeUser);
-                        cmd.Parameters.AddWithValue("@rating", user.rating);
                         cmd.Parameters.AddWithValue("@username", username);
                         reader = cmd.ExecuteReader();
                         table.Load(reader);
