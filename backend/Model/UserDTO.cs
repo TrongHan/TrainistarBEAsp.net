@@ -8,6 +8,6 @@ namespace backend.Model
         public string email { get; set; }
         public string phoneNumber { get; set; }
         public string gender { get; set; }
-        public byte typeUser { get; set; }
+        public string typeUser { get; set; }
     }
 }

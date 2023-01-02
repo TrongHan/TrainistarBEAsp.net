@@ -20,6 +20,30 @@ namespace backend.Controllers
             _configuration = configuration;
         }
 
+        public String getNextUserId()
+        {
+            string query = @"select max(convert(idUser,signed)) from user_";
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            string userId = "";
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    userId = table.Rows[0][0].ToString();
+                    reader.Close();
+                    con.Close();
+                }
+            }
+            int temp = Int32.Parse(userId) + 1;
+            userId = temp.ToString();
+            return userId;
+        }
+
         [Route("{username}")]
         [HttpDelete]
         public JsonResult DeleteUser(string username)
@@ -144,21 +168,11 @@ namespace backend.Controllers
         [HttpPost]
         public JsonResult Login(UserDTO user)
         {
-            string query = @"insert into user_ values ( 
-            @idUser,
-            @userName,
-            @password,
-            @firstName,
-            @lastName,
-            @email,
-            @phoneNumber,
-            @gender,
-            @typeUser,
-            )";
+            string query = @"insert into user_ values (@iduser,@username,@password,@firstname,@lastname,@email,@phonenumber,@gender,@typeuser)";
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
             MySqlDataReader reader;
-            
+            user.idUser = getNextUserId();
             try
             {
                 using (MySqlConnection con = new MySqlConnection(data))
@@ -167,16 +181,13 @@ namespace backend.Controllers
 
                     using (MySqlCommand cmd = new MySqlCommand(query, con))
                     {
-                        Random r=new Random();
-                        int randomId = r.Next(0, 100000000);
-                        user.idUser=randomId.ToString();
-                        cmd.Parameters.AddWithValue("@idUser", user.idUser);
-                        cmd.Parameters.AddWithValue("@userName", user.username);
+                        cmd.Parameters.AddWithValue("@iduser", user.idUser);
+                        cmd.Parameters.AddWithValue("@username", user.username);
                         cmd.Parameters.AddWithValue("@password", user.password);
-                        cmd.Parameters.AddWithValue("@firstName", user.firstName);
-                        cmd.Parameters.AddWithValue("@lastName", user.lastName);
+                        cmd.Parameters.AddWithValue("@firstname", user.firstName);
+                        cmd.Parameters.AddWithValue("@lastname", user.lastName);
                         cmd.Parameters.AddWithValue("@email", user.email);
-                        cmd.Parameters.AddWithValue("@phoneNumber", user.phoneNumber);
+                        cmd.Parameters.AddWithValue("@phonenumber", user.phoneNumber);
                         cmd.Parameters.AddWithValue("@gender", user.gender);
                         cmd.Parameters.AddWithValue("@typeUser", user.typeUser);
                         reader = cmd.ExecuteReader();
@@ -193,10 +204,10 @@ namespace backend.Controllers
             }
             response.code = "1";
             response.message = "Create succeeded";
-            return new JsonResult(response);
+            return new JsonResult(user);
         }
         [Route("{username}")]
-        [HttpPut]
+        [HttpPatch]
         public JsonResult UpdateUser(string username,[FromBody]UserDTO user)
         {
             string query = @"update user_ set
