@@ -204,7 +204,7 @@ namespace backend.Controllers
             }
             response.code = "1";
             response.message = "Create succeeded";
-            return new JsonResult(user);
+            return new JsonResult(response);
         }
         [Route("{username}")]
         [HttpPatch]
