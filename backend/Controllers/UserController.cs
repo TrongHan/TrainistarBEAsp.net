@@ -1,4 +1,4 @@
-﻿using backend.Function;
+using backend.Function;
 using backend.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -189,7 +189,7 @@ namespace backend.Controllers
                         cmd.Parameters.AddWithValue("@email", user.email);
                         cmd.Parameters.AddWithValue("@phonenumber", user.phoneNumber);
                         cmd.Parameters.AddWithValue("@gender", user.gender);
-                        cmd.Parameters.AddWithValue("@typeuser", user.typeUser);
+                        cmd.Parameters.AddWithValue("@typeUser", user.typeUser);
                         reader = cmd.ExecuteReader();
                         table.Load(reader);
                         reader.Close();
@@ -218,7 +218,6 @@ namespace backend.Controllers
             phoneNumber=@phoneNumber,
             gender=@gender,
             typeUser=@typeUser,
-            rating=@rating
             where userName=@username";
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");

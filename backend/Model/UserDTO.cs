@@ -1,4 +1,4 @@
-﻿namespace backend.Model
+namespace backend.Model
 {
     public class UserDTO : UserAuthentication
     {
