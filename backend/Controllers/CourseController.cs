@@ -22,11 +22,11 @@ namespace backend.Controllers
 
         public String getNextCourseId()
         {
-            string query = @"select count(*) from course";
+            string query = @"select max(convert(idCourse,signed)) from Course";
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
             MySqlDataReader reader;
-            string currentCourseId = "";
+            string courseId = "";
             using (MySqlConnection con = new MySqlConnection(data))
             {
                 con.Open();
@@ -34,14 +34,14 @@ namespace backend.Controllers
                 {
                     reader = cmd.ExecuteReader();
                     table.Load(reader);
-                    currentCourseId = table.Rows[0][0].ToString();
+                    courseId = table.Rows[0][0].ToString();
                     reader.Close();
                     con.Close();
                 }
             }
-            int temp=Int32.Parse(currentCourseId)+1;
-            currentCourseId=temp.ToString();
-            return currentCourseId;
+            int temp=Int32.Parse(courseId)+1;
+            courseId=temp.ToString();
+            return courseId;
         }
 
         [Route("all")]
@@ -162,7 +162,7 @@ namespace backend.Controllers
             return new JsonResult(response);
         }
         [Route("updatecourse/{id}")]
-        [HttpPut]
+        [HttpPatch]
         public JsonResult updateCourse(string id, [FromBody]CourseDTO course)
         {
             string query = @"update Course set            
