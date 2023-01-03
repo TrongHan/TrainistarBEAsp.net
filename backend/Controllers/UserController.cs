@@ -212,12 +212,12 @@ namespace backend.Controllers
         {
             string query = @"update user_ set
             password=@password,
-            firstName=@firstName,
-            lastName=@lastName,
+            firstName=@firstname,
+            lastName=@lastname,
             email=@email,
-            phoneNumber=@phoneNumber,
+            phoneNumber=@phonenumber,
             gender=@gender,
-            typeUser=@typeUser,
+            typeUser=@typeuser
             where userName=@username";
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
@@ -232,12 +232,12 @@ namespace backend.Controllers
                     using (MySqlCommand cmd = new MySqlCommand(query, con))
                     {   
                         cmd.Parameters.AddWithValue("@password", user.password);
-                        cmd.Parameters.AddWithValue("@firstName", user.firstName);
-                        cmd.Parameters.AddWithValue("@lastName", user.lastName);
+                        cmd.Parameters.AddWithValue("@firstname", user.firstName);
+                        cmd.Parameters.AddWithValue("@lastname", user.lastName);
                         cmd.Parameters.AddWithValue("@email", user.email);
-                        cmd.Parameters.AddWithValue("@phoneNumber", user.phoneNumber);
+                        cmd.Parameters.AddWithValue("@phonenumber", user.phoneNumber);
                         cmd.Parameters.AddWithValue("@gender", user.gender);
-                        cmd.Parameters.AddWithValue("@typeUser", user.typeUser);
+                        cmd.Parameters.AddWithValue("@typeuser", user.typeUser);
                         cmd.Parameters.AddWithValue("@username", username);
                         reader = cmd.ExecuteReader();
                         table.Load(reader);
@@ -247,28 +247,6 @@ namespace backend.Controllers
                 }
             return new JsonResult(response);
         }
-        /*
-        [Route("allstudents")]
-        [HttpGet]
-        public JsonResult getAllStudent()
-        {
-            string query = @"select * from User_ where typeUser = 1";
-            DataTable table = new DataTable();
-            string data = _configuration.GetConnectionString("DBConnect");
-            MySqlDataReader reader;
-            using (MySqlConnection con = new MySqlConnection(data))
-            {
-                con.Open();
-                using (MySqlCommand cmd = new MySqlCommand(query, con))
-                {
-                    reader = cmd.ExecuteReader();
-                    table.Load(reader);
-                    reader.Close();
-                    con.Close();
-                }
-            }
-            return new JsonResult(table);
-        }
-        */
+        
     }
 }
