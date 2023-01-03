@@ -165,15 +165,15 @@ namespace backend.Controllers
         [HttpPatch]
         public JsonResult updateCourse(string id, [FromBody]CourseDTO course)
         {
-            string query = @"update Course set            
-            idTeacher=@idTeacher,
-            idManager=@idManager,
-            nameCourse=@nameCourse,
+            string query = @"update Course set
+            idTeacher=@idteacher,
+            idManager=@idmanager,
+            nameCourse=@namecourse,
             description=@description,
-            idQuestionBank=@idQuestionBank,
-            startDate=@startDate,
-            finishDate=@finishDate
-            where idCourse=@idCourse";
+            idQuestionBank=@idquestionbank,
+            startDate=@startdate,
+            finishDate=@finishdate
+            where idCourse=@idcourse";
             DataTable table = new DataTable();
             string data = _configuration.GetConnectionString("DBConnect");
             MySqlDataReader reader;
@@ -188,21 +188,21 @@ namespace backend.Controllers
                     {
 
                         course.idCourse =id;
-                        cmd.Parameters.AddWithValue("@idCourse", course.idCourse);
-                        cmd.Parameters.AddWithValue("@idTeacher", course.idTeacher);
-                        cmd.Parameters.AddWithValue("@idManager", course.idManager);
-                        cmd.Parameters.AddWithValue("@nameCourse", course.nameCourse);
+                        cmd.Parameters.AddWithValue("@idcourse", course.idCourse);
+                        cmd.Parameters.AddWithValue("@idteacher", course.idTeacher);
+                        cmd.Parameters.AddWithValue("@idmanager", course.idManager);
+                        cmd.Parameters.AddWithValue("@namecourse", course.nameCourse);
                         cmd.Parameters.AddWithValue("@description", course.description);
-                        cmd.Parameters.AddWithValue("@idQuestionBank", course.idQuestionBank);
-                        cmd.Parameters.AddWithValue("@startDate", course.startDate);
-                        cmd.Parameters.AddWithValue("@finishDate", course.finishDate);
+                        cmd.Parameters.AddWithValue("@idquestionbank", course.idQuestionBank);
+                        cmd.Parameters.AddWithValue("@startdate", course.startDate);
+                        cmd.Parameters.AddWithValue("@finishdate", course.finishDate);
                         reader = cmd.ExecuteReader();
                         table.Load(reader);
                         reader.Close();
                         con.Close();
                     }
                 }
-            return new JsonResult(response);
+            return new JsonResult(course);
         }
         [Route("deletecourse/{id}")]
         [HttpDelete]
