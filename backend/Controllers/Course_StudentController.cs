@@ -58,7 +58,7 @@ namespace backend.Controllers
             catch (Exception ex)
             {
                 response.code = "-1";
-                response.message = "Create this course failed";
+                response.message = "Create this course_student failed";
             }
             response.code = "1";
             response.message = "Create succeeded";
@@ -80,6 +80,79 @@ namespace backend.Controllers
                 using (MySqlCommand cmd = new MySqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@idstudent", idstudent);
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    reader.Close();
+                    con.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
+        [Route("current/{idstudent}")]
+        [HttpGet]
+        public JsonResult getCurrentCourse(string idstudent)
+        {
+            string query = @"select course.idCourse, course.nameCourse, course_student.mark from course_student
+            join course on course.idCourse=course_student.idCourse
+            where course_student.idStudent=@idstudent and course_student.mark IS null";
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@idstudent", idstudent);
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    reader.Close();
+                    con.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
+        [Route("all/{idstudent}")]
+        [HttpGet]
+        public JsonResult getAllCourseOfOneStudent(string idstudent)
+        {
+            string query = @"select course.idCourse, course.nameCourse, course_student.mark from course_student
+            join course on course.idCourse=course_student.idCourse
+            where course_student.idStudent=@idstudent";
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@idstudent", idstudent);
+                    reader = cmd.ExecuteReader();
+                    table.Load(reader);
+                    reader.Close();
+                    con.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
+        [Route("mark/{idstudent}/{idcourse}")]
+        [HttpGet]
+        public JsonResult getMarkofCourse(string idstudent,string idcourse)
+        {
+            string query = @"select course.idCourse, course.nameCourse, course_student.mark from course_student
+            join course on course.idCourse=course_student.idCourse
+            where course_student.idStudent=@idstudent and course_student.idCourse=@idcourse and course_student.mark IS NOT null";
+            DataTable table = new DataTable();
+            string data = _configuration.GetConnectionString("DBConnect");
+            MySqlDataReader reader;
+            using (MySqlConnection con = new MySqlConnection(data))
+            {
+                con.Open();
+                using (MySqlCommand cmd = new MySqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@idstudent", idstudent);
+                    cmd.Parameters.AddWithValue("@idcourse", idcourse);
                     reader = cmd.ExecuteReader();
                     table.Load(reader);
                     reader.Close();

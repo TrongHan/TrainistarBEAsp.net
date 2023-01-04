@@ -7,7 +7,7 @@ namespace backend.Model
 {
     public class Course_SkillDTO
     {
-        public string idSkill { get; set; }
         public string idCourse { get; set; }
+        public string idSkill { get; set; }
     }
 }
